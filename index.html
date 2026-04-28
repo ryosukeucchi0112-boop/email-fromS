@@ -334,39 +334,51 @@
     }
 
     .image-frame {
-      position: relative;
-      min-height: 260px;
-      display: grid;
-      place-items: center;
-      background:
-        linear-gradient(135deg, rgba(255,255,255,0.9), rgba(230,233,237,0.72));
-      overflow: hidden;
-    }
+  position: relative;
+  min-height: 360px;
+  display: grid;
+  place-items: center;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.9), rgba(230,233,237,0.72));
+  overflow: hidden;
+}
 
-    .image-frame::before {
-      content: "添付画像 / 1 file";
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      z-index: 1;
-      font-family: var(--mono);
-      font-size: 11px;
-      color: #68717d;
-      background: rgba(255, 255, 255, 0.78);
-      border: 1px solid rgba(207, 212, 218, 0.9);
-      padding: 5px 8px;
-      border-radius: 999px;
-    }
+.image-frame::before {
+  content: "添付画像 / 1 file";
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 3;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: #68717d;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(207, 212, 218, 0.9);
+  padding: 5px 8px;
+  border-radius: 999px;
+}
 
-    .image-frame img {
-      display: block;
-      width: 100%;
-      max-height: 420px;
-      object-fit: cover;
-      filter: grayscale(0.18) contrast(0.96);
-      position: relative;
-      z-index: 2;
-    }
+.image-frame img {
+  display: block;
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  object-position: center 35%;
+  filter: grayscale(0.18) contrast(0.96);
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 640px) {
+  .image-frame {
+    min-height: 380px;
+  }
+
+  .image-frame img {
+    height: 380px;
+    object-position: center 35%;
+  }
+}
 
     .fallback {
       position: absolute;
@@ -748,7 +760,7 @@
               </div>
 
               <div class="connect-area">
-                <a class="connect-btn" href="temporal-index.html" aria-label="2026年4月17日の過去Web領域へ接続する">
+                <a class="connect-btn" href="https://ryosukeucchi0112-boop.github.io/search./" aria-label="2026年4月17日の過去Web領域へ接続する">
                   CONNECT TO 04.17
                 </a>
                 <div class="destination">
