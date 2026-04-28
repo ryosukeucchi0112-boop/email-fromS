@@ -333,9 +333,9 @@
       white-space: nowrap;
     }
 
-    .image-frame {
+   .image-frame {
   position: relative;
-  min-height: 360px;
+  min-height: 560px;
   display: grid;
   place-items: center;
   background:
@@ -343,40 +343,25 @@
   overflow: hidden;
 }
 
-.image-frame::before {
-  content: "添付画像 / 1 file";
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  z-index: 3;
-  font-family: var(--mono);
-  font-size: 11px;
-  color: #68717d;
-  background: rgba(255, 255, 255, 0.78);
-  border: 1px solid rgba(207, 212, 218, 0.9);
-  padding: 5px 8px;
-  border-radius: 999px;
-}
-
 .image-frame img {
   display: block;
   width: 100%;
-  height: 420px;
-  object-fit: cover;
-  object-position: center 35%;
+  height: 560px;
+  object-fit: contain;
+  object-position: center;
   filter: grayscale(0.18) contrast(0.96);
   position: relative;
   z-index: 2;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 760px) {
   .image-frame {
-    min-height: 380px;
+    min-height: 460px;
   }
 
   .image-frame img {
-    height: 380px;
-    object-position: center 35%;
+    height: 460px;
+    object-fit: contain;
   }
 }
 
