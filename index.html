@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MAIL ARCHIVE | 04.17</title>
+
   <style>
     :root {
       --bg: #eef0f2;
@@ -14,9 +15,11 @@
       --text: #1c1f23;
       --muted: #6b7280;
       --cold: #3b4552;
-      --danger: #22272e;
       --button: #16191d;
       --button-hover: #0d0f12;
+      --notice-bg: rgba(229, 231, 235, 0.96);
+      --notice-line: rgba(180, 186, 194, 0.85);
+      --notice-text: #4b5563;
       --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
       --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans JP",
         "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
@@ -26,13 +29,18 @@
       box-sizing: border-box;
     }
 
+    html {
+      min-height: 100%;
+      background: var(--bg);
+    }
+
     body {
       margin: 0;
       min-height: 100vh;
       background:
-        linear-gradient(180deg, rgba(255,255,255,0.78), rgba(234,236,239,0.96)),
-        radial-gradient(circle at top left, rgba(190,199,211,0.28), transparent 36%),
-        radial-gradient(circle at bottom right, rgba(136,145,157,0.16), transparent 42%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(234, 236, 239, 0.96)),
+        radial-gradient(circle at top left, rgba(190, 199, 211, 0.28), transparent 36%),
+        radial-gradient(circle at bottom right, rgba(136, 145, 157, 0.16), transparent 42%),
         var(--bg);
       color: var(--text);
       font-family: var(--sans);
@@ -40,30 +48,62 @@
       overflow-x: hidden;
     }
 
-    body::before {
-      content: "";
+    .fiction-mail-badge {
       position: fixed;
-      inset: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 14px;
+      background: var(--notice-bg);
+      border-bottom: 1px solid var(--notice-line);
+      color: var(--notice-text);
+      font-family: var(--sans);
+      font-size: 11px;
+      line-height: 1.5;
+      letter-spacing: 0.04em;
+      text-align: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .page {
+      position: relative;
+      width: min(1040px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 78px 0 28px;
+    }
+
+    .page::before {
+      content: "";
+      position: absolute;
+      inset: 38px auto auto 50%;
+      width: 100vw;
+      height: calc(100% - 38px);
+      transform: translateX(-50%);
       pointer-events: none;
       background-image:
         repeating-linear-gradient(
           to bottom,
-          rgba(0, 0, 0, 0.018) 0px,
-          rgba(0, 0, 0, 0.018) 1px,
+          rgba(0, 0, 0, 0.016) 0px,
+          rgba(0, 0, 0, 0.016) 1px,
           transparent 1px,
           transparent 4px
         );
       opacity: 0.35;
       mix-blend-mode: multiply;
-      z-index: 1;
+      z-index: 0;
     }
 
-    .page {
+    .system-strip,
+    .mail-window,
+    .time-fragment,
+    .footer {
       position: relative;
-      z-index: 2;
-      width: min(1040px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 40px 0 28px;
+      z-index: 1;
     }
 
     .system-strip {
@@ -97,9 +137,17 @@
     }
 
     @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(107, 114, 128, 0.4); }
-      70% { box-shadow: 0 0 0 8px rgba(107, 114, 128, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(107, 114, 128, 0); }
+      0% {
+        box-shadow: 0 0 0 0 rgba(107, 114, 128, 0.4);
+      }
+
+      70% {
+        box-shadow: 0 0 0 8px rgba(107, 114, 128, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(107, 114, 128, 0);
+      }
     }
 
     .mail-window {
@@ -114,14 +162,22 @@
     }
 
     .mail-toolbar {
-      min-height: 54px;
+      min-height: 58px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 14px;
       padding: 0 18px;
       border-bottom: 1px solid var(--line);
-      background: linear-gradient(180deg, #f8f8f7, #ededeb);
+      background:
+        linear-gradient(180deg, rgba(249, 249, 248, 0.94), rgba(236, 237, 236, 0.94)),
+        repeating-linear-gradient(
+          90deg,
+          rgba(17, 24, 39, 0.035) 0,
+          rgba(17, 24, 39, 0.035) 1px,
+          transparent 1px,
+          transparent 18px
+        );
     }
 
     .toolbar-left {
@@ -151,6 +207,7 @@
       color: #374151;
       font-weight: 700;
       letter-spacing: 0.12em;
+      white-space: nowrap;
     }
 
     .toolbar-right {
@@ -176,24 +233,31 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 10px;
       padding: 10px 12px;
       border-radius: 9px;
       font-size: 13px;
       color: #4b5563;
-      margin-bottom: 4px;
+      margin-bottom: 5px;
+      border: 1px solid transparent;
     }
 
     .folder.active {
-      background: #ffffff;
+      background: rgba(255, 255, 255, 0.78);
       color: #111827;
-      border: 1px solid var(--line);
-      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+      border-color: var(--line);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+
+    .folder .label {
+      overflow-wrap: anywhere;
     }
 
     .count {
       font-family: var(--mono);
       color: #7b828c;
       font-size: 11px;
+      white-space: nowrap;
     }
 
     .sidebar-note {
@@ -205,7 +269,7 @@
       font-family: var(--mono);
       font-size: 11px;
       line-height: 1.7;
-      background: rgba(255,255,255,0.46);
+      background: rgba(255, 255, 255, 0.46);
     }
 
     .content {
@@ -235,7 +299,15 @@
     .mail-header {
       padding: 22px 24px 18px;
       border-bottom: 1px solid var(--line);
-      background: linear-gradient(180deg, #ffffff, #f7f7f6);
+      background:
+        linear-gradient(180deg, #ffffff, #f7f7f6),
+        repeating-linear-gradient(
+          -45deg,
+          rgba(17, 24, 39, 0.02) 0,
+          rgba(17, 24, 39, 0.02) 1px,
+          transparent 1px,
+          transparent 12px
+        );
     }
 
     .subject {
@@ -274,7 +346,7 @@
     .mail-body {
       padding: 30px 24px 26px;
       background:
-        linear-gradient(90deg, rgba(17,24,39,0.025) 0 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.025) 0 1px, transparent 1px),
         var(--paper);
       background-size: 20px 20px;
     }
@@ -333,37 +405,27 @@
       white-space: nowrap;
     }
 
-   .image-frame {
-  position: relative;
-  min-height: 560px;
-  display: grid;
-  place-items: center;
-  background:
-    linear-gradient(135deg, rgba(255,255,255,0.9), rgba(230,233,237,0.72));
-  overflow: hidden;
-}
+    .image-frame {
+      position: relative;
+      min-height: clamp(300px, 54vw, 560px);
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(230, 233, 237, 0.72));
+      overflow: hidden;
+    }
 
-.image-frame img {
-  display: block;
-  width: 100%;
-  height: 560px;
-  object-fit: contain;
-  object-position: center;
-  filter: grayscale(0.18) contrast(0.96);
-  position: relative;
-  z-index: 2;
-}
-
-@media (max-width: 760px) {
-  .image-frame {
-    min-height: 460px;
-  }
-
-  .image-frame img {
-    height: 460px;
-    object-fit: contain;
-  }
-}
+    .image-frame img {
+      display: block;
+      width: 100%;
+      max-height: 560px;
+      height: auto;
+      object-fit: contain;
+      object-position: center;
+      filter: grayscale(0.18) contrast(0.96);
+      position: relative;
+      z-index: 2;
+    }
 
     .fallback {
       position: absolute;
@@ -375,6 +437,7 @@
       color: #6b7280;
       font-size: 13px;
       line-height: 1.8;
+      z-index: 1;
     }
 
     .fallback .broken {
@@ -423,8 +486,11 @@
       letter-spacing: 0.12em;
       box-shadow:
         0 12px 26px rgba(17, 24, 39, 0.24),
-        inset 0 1px 0 rgba(255,255,255,0.08);
-      transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      transition:
+        transform 0.18s ease,
+        background 0.18s ease,
+        box-shadow 0.18s ease;
       position: relative;
       overflow: hidden;
     }
@@ -438,8 +504,8 @@
           90deg,
           transparent 0,
           transparent 5px,
-          rgba(255,255,255,0.12) 5px,
-          rgba(255,255,255,0.12) 6px
+          rgba(255, 255, 255, 0.12) 5px,
+          rgba(255, 255, 255, 0.12) 6px
         );
       opacity: 0;
       transform: translateX(-12px);
@@ -451,7 +517,7 @@
       transform: translateY(-1px);
       box-shadow:
         0 16px 32px rgba(17, 24, 39, 0.28),
-        inset 0 1px 0 rgba(255,255,255,0.12);
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
       animation: hoverJitter 0.18s steps(2, end) infinite;
     }
 
@@ -465,16 +531,35 @@
     }
 
     @keyframes hoverJitter {
-      0% { translate: 0 0; }
-      25% { translate: 1px 0; }
-      50% { translate: -1px 1px; }
-      75% { translate: 0 -1px; }
-      100% { translate: 0 0; }
+      0% {
+        translate: 0 0;
+      }
+
+      25% {
+        translate: 1px 0;
+      }
+
+      50% {
+        translate: -1px 1px;
+      }
+
+      75% {
+        translate: 0 -1px;
+      }
+
+      100% {
+        translate: 0 0;
+      }
     }
 
     @keyframes noiseSlide {
-      from { transform: translateX(-16px); }
-      to { transform: translateX(16px); }
+      from {
+        transform: translateX(-16px);
+      }
+
+      to {
+        transform: translateX(16px);
+      }
     }
 
     .destination {
@@ -485,12 +570,36 @@
       line-height: 1.6;
     }
 
+    .time-fragment {
+      width: fit-content;
+      margin: 16px auto 0;
+      padding: 8px 10px;
+      border: 1px solid rgba(177, 183, 191, 0.7);
+      background: rgba(244, 245, 246, 0.76);
+      color: #68717d;
+      font-family: var(--mono);
+      font-size: 10px;
+      border-radius: 8px;
+      backdrop-filter: blur(6px);
+      pointer-events: none;
+    }
+
     .footer {
       margin-top: 18px;
       text-align: center;
       color: #7b828c;
       font-size: 11px;
+      line-height: 1.8;
+      font-family: var(--sans);
+    }
+
+    .footer p {
+      margin: 3px 0;
+    }
+
+    .footer .footer-mono {
       font-family: var(--mono);
+      letter-spacing: 0.08em;
     }
 
     .glitch {
@@ -507,20 +616,24 @@
         filter: none;
         opacity: 1;
       }
+
       20% {
         transform: translate(-1px, 1px);
         filter: blur(0.4px);
         opacity: 0.86;
       }
+
       45% {
         transform: translate(1px, -1px);
         letter-spacing: 0.08em;
         opacity: 1;
       }
+
       70% {
         transform: translate(-1px, 0);
         filter: contrast(1.6);
       }
+
       100% {
         transform: translate(0, 0);
         filter: none;
@@ -528,26 +641,16 @@
       }
     }
 
-    .time-fragment {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      z-index: 3;
-      padding: 8px 10px;
-      border: 1px solid rgba(177, 183, 191, 0.7);
-      background: rgba(244, 245, 246, 0.76);
-      color: #68717d;
-      font-family: var(--mono);
-      font-size: 10px;
-      border-radius: 8px;
-      backdrop-filter: blur(6px);
-      pointer-events: none;
-    }
-
     @media (max-width: 760px) {
+      .fiction-mail-badge {
+        min-height: 36px;
+        padding: 7px 12px;
+        font-size: 10px;
+      }
+
       .page {
         width: min(100% - 20px, 1040px);
-        padding-top: 18px;
+        padding-top: 62px;
       }
 
       .system-strip {
@@ -555,14 +658,21 @@
         flex-direction: column;
         gap: 6px;
         margin-left: 2px;
+        font-size: 11px;
       }
 
       .mail-toolbar {
+        min-height: 54px;
         padding: 0 12px;
       }
 
       .toolbar-right {
         display: none;
+      }
+
+      .archive-label {
+        font-size: 11px;
+        letter-spacing: 0.08em;
       }
 
       .mail-layout {
@@ -600,8 +710,18 @@
         line-height: 1.95;
       }
 
+      .attachment-head {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
+      }
+
       .image-frame {
-        min-height: 210px;
+        min-height: clamp(260px, 78vw, 420px);
+      }
+
+      .image-frame img {
+        max-height: 420px;
       }
 
       .connect-btn {
@@ -610,10 +730,18 @@
         font-size: 12px;
       }
 
-      .time-fragment {
-        right: 10px;
-        bottom: 10px;
-        opacity: 0.72;
+      .footer {
+        font-size: 10px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .image-frame {
+        min-height: 260px;
+      }
+
+      .image-frame img {
+        max-height: 340px;
       }
     }
 
@@ -634,14 +762,23 @@
     }
   </style>
 </head>
+
 <body>
+  <div class="fiction-mail-badge" role="note" aria-label="フィクション表記">
+    FICTIONAL MAIL CLIENT — このページは創作作品上の架空メールUIです。実在の人物・団体・事件・機関とは関係ありません。
+  </div>
+
   <main class="page">
     <div class="system-strip">
-      <div class="glitch" data-original="MAIL ARCHIVE / RECEIVED MESSAGE">MAIL ARCHIVE / RECEIVED MESSAGE</div>
-      <div class="unstable glitch" data-original="Connection unstable">Connection unstable</div>
+      <div class="glitch" data-original="MAIL FRAGMENT / RECEIVED SIGNAL">
+        MAIL FRAGMENT / RECEIVED SIGNAL
+      </div>
+      <div class="unstable glitch" data-original="Connection unstable">
+        Connection unstable
+      </div>
     </div>
 
-    <section class="mail-window" aria-label="SUZUKIから届いたメール">
+    <section class="mail-window" aria-label="SUZUKIから届いた架空メール">
       <header class="mail-toolbar">
         <div class="toolbar-left">
           <div class="dots" aria-hidden="true">
@@ -649,51 +786,59 @@
             <span></span>
             <span></span>
           </div>
-          <div class="archive-label glitch" data-original="INBOX">INBOX</div>
+          <div class="archive-label glitch" data-original="RECOVERED BOX / 01 FRAGMENT">
+            RECOVERED BOX / 01 FRAGMENT
+          </div>
         </div>
-        <div class="toolbar-right glitch" data-original="TEMPORAL MAIL CLIENT / local cache restored">
-          TEMPORAL MAIL CLIENT / local cache restored
+
+        <div class="toolbar-right glitch" data-original="FICTIONAL TEMPORAL MAIL VIEWER / cache restored">
+          FICTIONAL TEMPORAL MAIL VIEWER / cache restored
         </div>
       </header>
 
       <div class="mail-layout">
         <aside class="sidebar" aria-hidden="true">
           <div class="folder active">
-            <span>Inbox</span>
-            <span class="count">1</span>
+            <span class="label">Recovered</span>
+            <span class="count">01</span>
           </div>
           <div class="folder">
-            <span>Archive</span>
-            <span class="count">0</span>
+            <span class="label">Drift Log</span>
+            <span class="count">--</span>
           </div>
           <div class="folder">
-            <span>Draft</span>
-            <span class="count">0</span>
+            <span class="label">Unsent Ghost</span>
+            <span class="count">00</span>
           </div>
           <div class="folder">
-            <span>Deleted</span>
-            <span class="count">—</span>
+            <span class="label">Broken Cache</span>
+            <span class="count">?</span>
           </div>
 
           <div class="sidebar-note">
             SYSTEM LOG<br />
             restored: 2026.04.17<br />
             offset: -00:00:03<br />
-            layer: archived_web
+            layer: archived_web<br />
+            client: fictional_view
           </div>
         </aside>
 
         <div class="content">
           <article class="mail-card">
             <header class="mail-header">
-              <h1 class="subject glitch" data-original="04.17に接続してほしい">04.17に接続してほしい</h1>
+              <h1 class="subject glitch" data-original="04.17に接続してほしい">
+                04.17に接続してほしい
+              </h1>
 
               <div class="meta-grid">
                 <div class="meta-label">From</div>
                 <div class="meta-value mono glitch" data-original="SUZUKI">SUZUKI</div>
 
                 <div class="meta-label">Date</div>
-                <div class="meta-value mono glitch" data-original="2026.04.17 23:58">2026.04.17 23:58</div>
+                <div class="meta-value mono glitch" data-original="2026.04.17 23:58">
+                  2026.04.17 23:58
+                </div>
 
                 <div class="meta-label">To</div>
                 <div class="meta-value mono">undisclosed-recipient</div>
@@ -713,18 +858,19 @@
 
                 <div class="attachment" aria-label="添付画像">
                   <div class="attachment-head">
-                    <strong>asakura_mio_0417.jpg</strong>
-                    <span class="file-count">添付画像 / 1 file</span>
+                    <strong>asakura_mio_0417.png</strong>
+                    <span class="file-count">attached image / 1 fragment</span>
                   </div>
 
                   <div class="image-frame">
                     <div class="fallback">
                       <div>
-                        <span class="broken">IMAGE CACHE / asakura_mio_0417.jpg</span>
-                        画像ファイルを同じフォルダに置くと、ここに表示されます。<br />
-                        読み込み待機中。
+                        <span class="broken">IMAGE CACHE / asakura_mio_0417.png</span>
+                        画像キャッシュを復元できませんでした。<br />
+                        同じフォルダに asakura_mio_0417.png を配置してください。
                       </div>
                     </div>
+
                     <img
                       src="asakura_mio_0417.png"
                       alt="朝倉澪の添付画像"
@@ -745,9 +891,14 @@
               </div>
 
               <div class="connect-area">
-                <a class="connect-btn" href="https://ryosukeucchi0112-boop.github.io/search./" aria-label="2026年4月17日の過去Web領域へ接続する">
+                <a
+                  class="connect-btn"
+                  href="https://ryosukeucchi0112-boop.github.io/search./"
+                  aria-label="2026年4月17日の過去Web領域へ接続する"
+                >
                   CONNECT TO 04.17
                 </a>
+
                 <div class="destination">
                   接続先：2026.04.17 / Archived Web Layer
                 </div>
@@ -758,14 +909,16 @@
       </div>
     </section>
 
+    <div class="time-fragment glitch" data-original="04.17 / signal drift: 00:00:03">
+      04.17 / signal drift: 00:00:03
+    </div>
+
     <footer class="footer">
-      This is a fictional ARG experience.
+      <p class="footer-mono">FICTIONAL ARG EXPERIENCE</p>
+      <p>このページは創作作品の一部です。実在の人物・団体・事件・機関とは関係ありません。</p>
+      <p>人物・施設・風景等の画像はAI生成画像または加工画像を含みます。</p>
     </footer>
   </main>
-
-  <div class="time-fragment glitch" data-original="04.17 / signal drift: 00:00:03">
-    04.17 / signal drift: 00:00:03
-  </div>
 
   <script>
     const glitchTargets = Array.from(document.querySelectorAll(".glitch"));
@@ -773,13 +926,14 @@
     const fragments = [
       "04.17",
       "04.1_",
-      "04.17",
       "TEMPORAL",
       "ARCHIVED",
       "SIGNAL LOST",
       "RETRYING",
       "23:58",
-      "23:5_"
+      "23:5_",
+      "CACHE",
+      "FICTIONAL"
     ];
 
     function scrambleText(el) {
